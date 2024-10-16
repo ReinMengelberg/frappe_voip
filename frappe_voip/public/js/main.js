@@ -1,0 +1,1 @@
+// Initializes the softphone and services
