@@ -20,10 +20,8 @@ voip.Correspondence = class Correspondence {
         }
     }
 
-    /** @returns {string} */
     get avatarUrl() {
         if (this.partner) {
-            // Use the partner's image if available, else use a default avatar
             if (this.partner.image) {
                 return this.partner.image;
             } else {
@@ -33,12 +31,10 @@ voip.Correspondence = class Correspondence {
         return "/assets/frappe/images/ui/avatar.png";
     }
 
-    /** @returns {Object | undefined} */
     get partner() {
         return this.call?.partner || this.activity?.partner || this._partner;
     }
 
-    /** @returns {string} */
     get phoneNumber() {
         if (this.call) {
             return this.call.phoneNumber;
@@ -52,10 +48,8 @@ voip.Correspondence = class Correspondence {
         return "";
     }
 
-    // Method to save the call to the VoIP Call DocType
     saveCallLog() {
         const callData = {
-            doctype: 'VoIP Call',
             phone_number: this.phoneNumber,
             direction: this.call.direction,
             partner: this.partner ? this.partner.name : null,
@@ -65,15 +59,14 @@ voip.Correspondence = class Correspondence {
             // Add other fields as necessary
         };
 
-        // Use frappe.call to create a new VoIP Call record
         frappe.call({
-            method: 'frappe.client.insert',
+            method: 'frappe_voip.voip_call.log_voip_call',
             args: {
-                doc: callData,
+                call_data: callData,
             },
             callback: function (r) {
                 if (!r.exc) {
-                    console.log('VoIP Call logged successfully.');
+                    console.log('VoIP Call logged successfully with name:', r.message);
                 } else {
                     console.error('Failed to log VoIP Call.', r.exc);
                 }
