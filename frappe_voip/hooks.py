@@ -19,7 +19,7 @@ app_license = "agpl-3.0"
 # 		"route": "/frappe_voip",
 # 		"has_permission": "frappe_voip.api.permission.has_app_permission"
 # 	}
-# ]
+# ] 
 
 # Includes in <head>
 # ------------------
